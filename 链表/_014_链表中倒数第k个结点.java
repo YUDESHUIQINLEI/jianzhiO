@@ -18,6 +18,8 @@ public class _014_链表中倒数第k个结点 {
      */
     public static Node findKthNode(Node head, int val){
         Node node = head;
+        if(val <= 0)
+            return null; //要增加对边界条件的判断
         while(-- val > 0){
             if(node.next != null)
                 node = node.next;
