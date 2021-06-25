@@ -5,10 +5,11 @@ public class _036_两个链表第一个公共节点 {
         Node head1 = new Node(1);
         Node a = new Node(2);
         Node b = new Node(3);
+        Node c = new Node(4);
         Node head2 = new Node(6);
         head1.next = a; a.next = b;
-        head2.next = b;
-        System.out.println(getIntersectionNode(head1, head2).val);
+        head2.next = c;
+        System.out.println(getIntersectionNode1(head1, head2).val);
     }
     public static Node getIntersectionNode(Node headA, Node headB) {
         if(headA == null || headB == null)
@@ -45,5 +46,16 @@ public class _036_两个链表第一个公共节点 {
             headB = headB.next;
         }
         return null;
+    }
+
+    static Node getIntersectionNode1(Node headA, Node headB) {
+        Node node1 = headA;
+        Node node2 = headB;
+
+        while (node1 != node2) {
+            node1 = node1 != null ? node1.next : headB;
+            node2 = node2 != null ? node2.next : headA;
+        }
+        return node1;
     }
 }
