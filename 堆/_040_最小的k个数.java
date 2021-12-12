@@ -1,6 +1,11 @@
 package 堆;
 import java.util.*;
 public class _040_最小的k个数 {
+    public static void main(String[] args){
+        int[] arr = {1, 2, 3, 4, 5};
+        _040_最小的k个数 solution = new _040_最小的k个数();
+        System.out.println(solution.ktkLarger(arr, 5));
+    }
     /**
      * 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
      *
@@ -34,6 +39,21 @@ public class _040_最小的k个数 {
         for(int num : queue)
             res[id ++] = num;
         return res;
+    }
+
+    //第K个大的数字
+    public int ktkLarger(int[] nums, int k){
+        if(k == 0 || nums.length == 0 )
+            return 0;
+        if(k > nums.length)
+            throw new RuntimeException("数组长度不足k");
+        Queue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1; //升序
+            }
+        });
+        return nums[nums.length - k];
     }
 
     //利用快排
