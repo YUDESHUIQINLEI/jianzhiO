@@ -11,47 +11,33 @@ public class _076_最小覆盖子串 {
         if (s == null || s == "" || t == null || t == "" || s.length() < t.length()) {
             return "";
         }
-        //ASCII表总长128
-        int[] need = new int[128];
-        int[] have = new int[128];
-        for (int i = 0; i < t.length(); i++) {
-            need[t.charAt(i)]++;
-        }
-        int left = 0, right = 0, min = s.length() + 1, count = 0, start = 0;
-        while (right < s.length()) {
-            char r = s.charAt(right);
-            if (need[r] == 0) {
-                right++;
-                continue;
-            }
-            //这个是怕某个元素在字符串s中重复的次数多余t
-            if (have[r] < need[r]) {
-                count++;
-            }
-            have[r]++;
-            right++;
-            while (count == t.length()) {
-                System.out.print(s.substring(left, right) + " ");
-                if (right - left < min) {
-                    min = right - left;
-                    start = left;
+        int[] map = new int[256];
+        char[] ch1 = s.toCharArray();
+        char[] ch2 = t.toCharArray();
+        for(char ch : ch2)
+            map[ch] ++; //需要s补偿的字符
+        int match = ch2.length;
+        int left = 0;
+        int right = 0;
+        int minLen = Integer.MAX_VALUE;
+        int res = 0;
+        while(right != ch1.length){
+            map[ch1[right]] --;
+            if(map[ch1[right]] >= 0)
+                match --;
+            if(match == 0){
+                while(map[ch1[left]] < 0){
+                    map[ch1[left ++]] ++;
                 }
-                char l = s.charAt(left);
-                if (need[l] == 0) {
-                    left++;
-                    continue;
+                if((right - left + 1) < minLen){
+                    minLen = right - left + 1;
+                    res = left;
                 }
-                if (have[l] == need[l]) {
-                    count--;
-                }
-                have[l]--;
-                left++; //减小到就只剩恰好包含t字符串的s字符串
+                match ++;
+                map[ch1[left ++]] ++;
             }
-            System.out.println();
+            right ++;
         }
-        if (min == s.length() + 1) {
-            return "";
-        }
-        return s.substring(start, start + min);
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(res, res + minLen);
     }
 }
